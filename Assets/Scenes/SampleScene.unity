@@ -1462,10 +1462,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a76cbe2c2a3534fa60013420613753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPos: {x: 0, y: 20, z: 0}
-  cam: {fileID: 963194225}
-  DistanceToRay: 10
-  MoveSides: 20
+  CameraPositionByHit: {x: 0, y: 8, z: -10}
+  minScale: 1
+  maxScale: 3
+  mode: 0
+  moveSidesSize: 20
+  slideSensitivity: 2
 --- !u!1 &967987508
 GameObject:
   m_ObjectHideFlags: 0
