@@ -62,8 +62,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Building Prefabs\Peasan houses\PeasanHouse.cs" />
+    <Compile Include="Assets\Building Prefabs\Sawmill\Sawmill.cs" />
     <Compile Include="Assets\Scripts\CameraMovment.cs" />
+    <Compile Include="Assets\Scripts\ClickHandler.cs" />
+    <Compile Include="Assets\Scripts\DragAndDrop.cs" />
     <Compile Include="Assets\Scripts\GameData.cs" />
+    <Compile Include="Assets\Scripts\MaskControl.cs" />
+    <Compile Include="Assets\Scripts\ObjectInformation.cs" />
+    <Compile Include="Assets\Scripts\ObjectMenuHandler.cs" />
+    <Compile Include="Assets\Scripts\SceneLogic.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Games/Eldarov project/korobeiniki/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
