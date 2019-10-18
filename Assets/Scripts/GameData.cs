@@ -73,4 +73,43 @@ namespace GameStructure
     {
 
     }
+
+
+    public enum Item
+    {
+        wood,
+        gold
+    }
+
+    public class ItemStorage
+    {
+        public Dictionary<Item, int> items;
+        public Vector3 Destination; 
+
+        public ItemStorage()
+        {
+            items = new Dictionary<Item, int>();
+        }
+
+        public bool IsItemExists(Item type_)
+        {
+            return items.ContainsKey(type_);
+        }
+
+        
+
+        public static void ItemTransfer(Item item, ItemStorage from, ItemStorage to, int count = 1)
+        {
+            // Add item to list, if it doesnt exist yet
+            if (!to.IsItemExists(item))
+                to.items.Add(item, 0);
+            to.items[item] += count;
+
+            // Decrece item count  
+            from.items[item] -= count;
+                if (from.items[item] == 0)
+                    from.items.Remove(item);//Delete item if it count less then zero
+        }
+    }
+    
 }

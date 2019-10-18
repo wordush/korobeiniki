@@ -89,16 +89,14 @@ public class CameraMovment : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Q))
         {
-            angle += 180 * Time.deltaTime;
-            camPos = RotateAround(camPos,new Vector3(hit.point.x,0, hit.point.z),180 * Time.deltaTime);
-            CameraPositionByHit = camPos - hit.point;
+            angle += 90 * Time.deltaTime;
+            CameraPositionByHit = RotateAround(CameraPositionByHit ,new Vector3(0, CameraPositionByHit.y, 0), 90 * Time.deltaTime);
         }
         else
         if (Input.GetKey(KeyCode.E))
         {
-            angle -= 180 * Time.deltaTime;
-            camPos = RotateAround(camPos, new Vector3(hit.point.x, 0, hit.point.z), -180 * Time.deltaTime);
-            CameraPositionByHit = camPos - hit.point;
+            angle -= 90 * Time.deltaTime;
+            CameraPositionByHit = RotateAround(CameraPositionByHit, new Vector3(0, CameraPositionByHit.y, 0), -90 * Time.deltaTime);
         }
 
     }

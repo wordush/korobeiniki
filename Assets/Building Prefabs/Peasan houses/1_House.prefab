@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &486528268496676382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8977325000525210449}
+  m_Layer: 0
+  m_Name: EnteryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8977325000525210449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486528268496676382}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.896, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7748229735156905387}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5105344501752463436
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,8 +41,11 @@ GameObject:
   - component: {fileID: 7748229735156905387}
   - component: {fileID: 7091723325812588971}
   - component: {fileID: 2076196168015002730}
+  - component: {fileID: 3120229520773881529}
   - component: {fileID: 9025440819896843749}
   - component: {fileID: 311977302344621015}
+  - component: {fileID: 8027184597433097719}
+  - component: {fileID: 7895142383842308107}
   m_Layer: 8
   m_Name: 1_House
   m_TagString: Untagged
@@ -36,6 +69,7 @@ Transform:
   - {fileID: 462847679009235712}
   - {fileID: 4983976867237414860}
   - {fileID: 8531272353044026521}
+  - {fileID: 8977325000525210449}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58,6 +92,7 @@ MonoBehaviour:
   - {fileID: 8318708528712103391}
   - {fileID: 4629263746720212618}
   information: {fileID: 0}
+  Entery: {fileID: 8977325000525210449}
   level: 0
 --- !u!114 &2076196168015002730
 MonoBehaviour:
@@ -77,6 +112,21 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4a150436c3e50f540b19bdbb2937b605, type: 3}
   Description: 
   Name: 
+  type: 2
+--- !u!114 &3120229520773881529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105344501752463436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a589840788efb144aab0e4c2e5b94bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Destination: {fileID: 8977325000525210449}
+  resters: []
 --- !u!54 &9025440819896843749
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -106,6 +156,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.6289153, y: 4.480424, z: 3.3851175}
   m_Center: {x: 0.027246237, y: 2.2318754, z: -0.052386045}
+--- !u!65 &8027184597433097719
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105344501752463436}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5208802, y: 1.7076979, z: 1.6667292}
+  m_Center: {x: 3.583669, y: 0.8534, z: -0.06250587}
+--- !u!208 &7895142383842308107
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5105344501752463436}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.815, y: 0.5, z: 1.615}
+  m_MoveThreshold: 2
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.48, z: 0}
+  m_TimeToStationary: 3
 --- !u!1001 &1375053301143849424
 PrefabInstance:
   m_ObjectHideFlags: 0

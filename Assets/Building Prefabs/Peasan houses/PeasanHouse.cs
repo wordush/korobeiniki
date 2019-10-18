@@ -8,6 +8,7 @@ public class PeasanHouse : MonoBehaviour
 {
     public GameObject[] houseObects;
     public ObjectInformation information;
+    public Transform Entery;
 
     float BuildigTime = 10;
     int Capacity;
@@ -22,6 +23,10 @@ public class PeasanHouse : MonoBehaviour
         UpdateValues(level);
         information.Functions.Add(LevelUp);
         information.Functions.Add(DeleteThisSheet);
+
+        GameEvent.BuildingBuilded(gameObject);
+
+        SelectedObject.Set(gameObject);
     }
 
     public GameObject GetActiveHouse()

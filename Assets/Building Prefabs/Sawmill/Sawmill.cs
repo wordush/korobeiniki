@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using GameStructure;
 
@@ -10,18 +11,50 @@ public class Sawmill : MonoBehaviour
     public ObjectInformation information;
     public int perfomance;
     public Level level;
+    public Work work;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<PeasanController>())
+        {
+            work.SetWorkerActiv(other.gameObject.GetComponent<PeasanController>(), true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<PeasanController>())
+        {
+            work.SetWorkerActiv(other.gameObject.GetComponent<PeasanController>(), false);
+        }
+    }
 
     public void Start()
     {
-        information = GetComponent<ObjectInformation>();
+        work = GetComponent<Work>();
+        AddListeners();
+    }
+
+    private void AddListeners()
+    {
+        work.WorkGoing += WorkGoing;
+    }
+
+    public void WorkGoing(int Amount)
+    {
+        if (work.storage.IsItemExists(Item.wood))
+        {
+            work.storage.items[Item.wood] += Amount;
+        }
+        else
+        {
+            work.storage.items.Add(Item.wood, Amount);
+        }
     }
 
     public void Update()
     {
-        store += Mathf.Clamp(perfomance * Time.deltaTime,0,capacity);
-        information.Description = ((int)store).ToString() + ": wood in the bank";
-        if(SelectedObject.IsActiv() && SelectedObject.Get().Equals(gameObject))
-            GameObject.Find("ObjectMenu").GetComponent<ObjectMenuHandler>().OnInformationChanged();
+
     }
 
     public void LevelUp()
