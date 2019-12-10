@@ -15,7 +15,7 @@ public class Sawmill : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<PeasanController>())
+        if (other.gameObject.GetComponent<PeasanController>() && !other.gameObject.GetComponent<PeasanController>().DeliveryOn)
         {
             work.SetWorkerActiv(other.gameObject.GetComponent<PeasanController>(), true);
         }
@@ -23,7 +23,7 @@ public class Sawmill : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<PeasanController>())
+        if (other.gameObject.GetComponent<PeasanController>() && !other.gameObject.GetComponent<PeasanController>().DeliveryOn)
         {
             work.SetWorkerActiv(other.gameObject.GetComponent<PeasanController>(), false);
         }
@@ -49,6 +49,10 @@ public class Sawmill : MonoBehaviour
         else
         {
             work.storage.items.Add(Item.wood, Amount);
+        }
+        if (work.storage.items[Item.wood] > 10)
+        {
+            GameEvent.FullOfItems(Item.wood,0,work.storage);
         }
     }
 
