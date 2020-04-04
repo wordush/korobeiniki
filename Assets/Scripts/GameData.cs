@@ -16,15 +16,35 @@ namespace GameStructure
         Level5
     }
 
+    public enum State
+    {
+        Rest,
+        Work,
+        Delivery1St,
+        Delivery2Nd,
+        Consum1St,
+        Consum2Nd,
+        Work1C,
+        Work2C,
+        Work3C
+    }
+
+    public enum Work
+    {
+        Rest,
+        Work,
+
+    }
+
     [Serializable]
     public class GameData
     {
-        int ImpratorLoyality;
-        int Money;
-        int PeasantsLoyality;
-        int Peasants;
-        GameStatment Satatment;
-        GameProgress Progress;
+        int _impratorLoyality;
+        int _money;
+        int _peasantsLoyality;
+        int _peasants;
+        GameStatment _satatment;
+        GameProgress _progress;
 
         public static void SaveGameData(GameData data, string name)
         {
@@ -77,30 +97,32 @@ namespace GameStructure
 
     public enum Item
     {
-        wood,
-        gold,
-        floor,
-        corn,
-        firewood,
-        fiber,
-        plank,
-        potato
+        Wood,
+        Gold,
+        Floor,
+        Corn,
+        Firewood,
+        Fiber,
+        Plank,
+        Potato
     }
 
     public class ItemStorage
     {
         public Dictionary<Item, int> items;
-        public Vector3 Destination; 
+        public Vector3 Destination;
+        public bool ConsunationStarted;
 
-        public ItemStorage(Vector3 Dest)
+        public ItemStorage(Vector3 dest)
         {
             items = new Dictionary<Item, int>();
-            Destination = Dest;
+            Destination = dest;
+            ConsunationStarted = false;
         }
 
-        public bool IsItemExists(Item type_)
+        public bool IsItemExists(Item type)
         {
-            return items.ContainsKey(type_);
+            return items.ContainsKey(type);
         }
 
         
@@ -110,17 +132,24 @@ namespace GameStructure
             // Add item to list, if it doesnt exist yet
             
             if (!to.IsItemExists(item))
-                if(count == 0)
+                if (count == 0)
                     to.items.Add(item, from.items[item]);
                 else
                     to.items.Add(item, count);
-            else
-                to.items[item] += count;
+            else 
+                if (count == 0)
+                    to.items[item] += from.items[item];
+                else
+                    to.items[item] += count;
 
-            // Decrece item count  
-            from.items[item] -= count;
-                if (from.items[item] == 0)
-                    from.items.Remove(item);//Delete item if it count less then zero
+            // Decrece item count
+            if (count == 0)
+                from.items[item] = 0;
+            else
+                from.items[item] -= count;
+
+            if (from.items[item] <= 0)
+                from.items.Remove(item);//Delete item if it count less then zero
         }
     }
     

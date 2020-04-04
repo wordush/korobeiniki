@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Games\korobeiniki" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Building Prefabs" t="Include">
+          <e p="Mill" t="Include">
+            <e p="Mill.cs" t="Include" />
+          </e>
+          <e p="Peasan houses" t="Include">
+            <e p="PeasanHouse.cs" t="Include" />
+          </e>
+          <e p="Sawmill" t="Include">
+            <e p="Sawmill.cs" t="Include" />
+          </e>
+          <e p="Storage" t="Include">
+            <e p="Storage.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Menu" t="Include">
+          <e p="Menuhandler.cs" t="Include" />
+          <e p="MenuSoundHandler.cs" t="Include" />
+          <e p="SceneHandler.cs" t="Include" />
+          <e p="SettingInterface.cs" t="Include" />
+        </e>
+        <e p="Peasan Presets" t="Include">
+          <e p="PeasanController.cs" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Baulk.cs" t="Include" />
+          <e p="CameraMovment.cs" t="Include" />
+          <e p="ClickHandler.cs" t="Include" />
+          <e p="Content.cs" t="Include" />
+          <e p="DragAndDrop.cs" t="Include" />
+          <e p="GameData.cs" t="Include" />
+          <e p="MaskControl.cs" t="Include" />
+          <e p="MusicSource.cs" t="Include" />
+          <e p="ObjectMenuHandler.cs" t="Include" />
+          <e p="Rest.cs" t="Include" />
+          <e p="SceneLogic.cs" t="Include" />
+          <e p="TreeLife.cs" t="Include" />
+          <e p="Work.cs" t="Include" />
+        </e>
+        <e p="Terrain scripting" t="Include">
+          <e p="Pohuj.cs" t="Include" />
+        </e>
+      </e>
+      <e p="korobeiniki.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+    <e p="C:\Users\006gt\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\006gt\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_korobeiniki.914538810.00" t="ExcludeRecursive" />
+  </component>
+</project>

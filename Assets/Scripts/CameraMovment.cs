@@ -12,16 +12,16 @@ public class CameraMovment : MonoBehaviour
     }
 
 
-    private Vector3 camPos;
-    private Quaternion camRot;
-    private GameObject camObj;
-    public Vector3 CameraPositionByHit;
-    private float angle;
+    private Vector3 _camPos;
+    private Quaternion _camRot;
+    private GameObject _camObj;
+    public Vector3 _cameraPositionByHit;
+    private float _angle;
 
-    private RaycastHit hit;
-    private Vector3 targetPos;    
+    private RaycastHit _hit;
+    private Vector3 _targetPos;    
     
-    private float Scale = 1;
+    private float _scale = 1;
     public float minScale;
     public float maxScale;
 
@@ -32,10 +32,10 @@ public class CameraMovment : MonoBehaviour
     
     void Start()
     {
-        camObj = this.gameObject;
-        camPos = camObj.transform.position;
-        camRot = camObj.transform.rotation;
-        targetPos = Vector3.up * 100;
+        _camObj = this.gameObject;
+        _camPos = _camObj.transform.position;
+        _camRot = _camObj.transform.rotation;
+        _targetPos = Vector3.up * 100;
     }
 
     private void FixedUpdate()
@@ -43,19 +43,19 @@ public class CameraMovment : MonoBehaviour
         switch (mode)
         {
             case CameraMode.AdaptiveHightMode:
-                Ray ray = new Ray(targetPos, Vector3.down);
-                int layerMask = 1 << 8;
+                Ray ray = new Ray(_targetPos, Vector3.down);
+                int layerMask = (1 << 8) | (1 << 9);
                 layerMask = ~layerMask;
-                Physics.Raycast(ray, out hit,Mathf.Infinity,layerMask);
+                Physics.Raycast(ray, out _hit,Mathf.Infinity,layerMask);
 
-                camRot = Quaternion.LookRotation(hit.point - camPos, Vector3.up);
+                _camRot = Quaternion.LookRotation(_hit.point - _camPos, Vector3.up);
 
-                Scale -= Input.mouseScrollDelta.y * 0.1f;
-                Scale = Mathf.Clamp(Scale,minScale,maxScale);
-                camPos = hit.point + CameraPositionByHit * Scale;
+                _scale -= Input.mouseScrollDelta.y * 0.1f;
+                _scale = Mathf.Clamp(_scale,minScale,maxScale);
+                _camPos = _hit.point + _cameraPositionByHit * _scale;
 
-                camObj.transform.position = Vector3.Lerp(camObj.transform.position, camPos , Time.deltaTime * 10);
-                camObj.transform.rotation = Quaternion.Lerp(camObj.transform.rotation,camRot, Time.deltaTime * 10);
+                _camObj.transform.position = Vector3.Lerp(_camObj.transform.position, _camPos , Time.deltaTime * 10);
+                _camObj.transform.rotation = Quaternion.Lerp(_camObj.transform.rotation,_camRot, Time.deltaTime * 10);
                 break;
             case CameraMode.FixedHeightMode:
                 Debug.LogError("Я это еще не доделал!!!, переключи mode на AdaptiveHightMode");
@@ -67,36 +67,36 @@ public class CameraMovment : MonoBehaviour
     {
         if ((Input.mousePosition.y < moveSidesSize && Input.mousePosition.y > 0) || (Input.GetKey(KeyCode.S)))// Down
         {
-            targetPos.z -= Mathf.Cos(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
-            targetPos.x -= Mathf.Sin(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
+            _targetPos.z -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _targetPos.x -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
         }
         else
         if ((Screen.height - Input.mousePosition.y < moveSidesSize && Input.mousePosition.y < Screen.height) || (Input.GetKey(KeyCode.W)))// Up
         {
-            targetPos.z += Mathf.Cos(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
-            targetPos.x += Mathf.Sin(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
+            _targetPos.z += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _targetPos.x += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
         }
         if ((Input.mousePosition.x < moveSidesSize && Input.mousePosition.x > 0) || (Input.GetKey(KeyCode.A))) // Left 
         {
-            targetPos.z += Mathf.Sin(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
-            targetPos.x -= Mathf.Cos(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
+            _targetPos.z += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _targetPos.x -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
         }
         else
         if ((Screen.width - Input.mousePosition.x < moveSidesSize && Input.mousePosition.x < Screen.width) || (Input.GetKey(KeyCode.D)))// Right
         {
-            targetPos.z -= Mathf.Sin(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
-            targetPos.x += Mathf.Cos(angle * Mathf.Deg2Rad) * slideSensitivity * Scale * 0.1f;
+            _targetPos.z -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _targetPos.x += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
         }
         if (Input.GetKey(KeyCode.Q))
         {
-            angle += 90 * Time.deltaTime;
-            CameraPositionByHit = RotateAround(CameraPositionByHit ,new Vector3(0, CameraPositionByHit.y, 0), 90 * Time.deltaTime);
+            _angle += 90 * Time.deltaTime;
+            _cameraPositionByHit = RotateAround(_cameraPositionByHit ,new Vector3(0, _cameraPositionByHit.y, 0), 90 * Time.deltaTime);
         }
         else
         if (Input.GetKey(KeyCode.E))
         {
-            angle -= 90 * Time.deltaTime;
-            CameraPositionByHit = RotateAround(CameraPositionByHit, new Vector3(0, CameraPositionByHit.y, 0), -90 * Time.deltaTime);
+            _angle -= 90 * Time.deltaTime;
+            _cameraPositionByHit = RotateAround(_cameraPositionByHit, new Vector3(0, _cameraPositionByHit.y, 0), -90 * Time.deltaTime);
         }
 
     }

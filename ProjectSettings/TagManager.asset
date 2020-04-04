@@ -8,6 +8,11 @@ TagManager:
   - Buildings
   - Peasans
   - Storage
+  - Ivisible
+  - Music
+  - SceneHandler
+  - Tree
+  - Brewno
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - 
   - 
   - CameraIgnore
-  - 
+  - Baulk
   - 
   - 
   - 

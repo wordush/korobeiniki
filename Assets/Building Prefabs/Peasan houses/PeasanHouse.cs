@@ -3,26 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameStructure;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class PeasanHouse : MonoBehaviour
+public class PeasanHouse : MonoBehaviour , IHaveFunctions , IHaveName , IHaveDescription
 {
     public GameObject[] houseObects;
-    public ObjectInformation information;
-    public Transform Entery;
+    [FormerlySerializedAs("Entery")] public Transform entery;
 
-    float BuildigTime = 10;
-    int Capacity;
+
+    public string showName;
+    public string Name { get { return showName; } }
+    public string showDescription;
+    public string Description { get { return showDescription; } }
+
+    [FormerlySerializedAs("Functions")] public List<KeyValuePair<string, UnityAction>> functions;
+       
+    public List<KeyValuePair<string, UnityAction>> PublFunctions { get{return functions; } }
+
+    float _buildigTime = 10;
+    public int restCount;
+    int _capacity;
     public Level level;
 
+    public List<PeasanController> resters;
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<PeasanController>(out PeasanController peasan))
+        {
+            if (peasan.state == State.Rest)
+                resters.Add(peasan);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<PeasanController>(out PeasanController peasan))
+        {
+            if (resters.Contains(peasan))
+                resters.Remove(peasan);
+        }
+    }
+
+    public void TicUpdate()
+    {
+        foreach (PeasanController peas in resters)
+        {
+            peas.energy += restCount;
+        }
+    } 
 
 
     void Start()
     {
-        information = GetComponent<ObjectInformation>();
+        GameEvent.Tik += TicUpdate;
         level = Level.Level1;
         UpdateValues(level);
-        information.Functions.Add(LevelUp);
-        information.Functions.Add(DeleteThisSheet);
+        functions = new List<KeyValuePair<string, UnityAction>>
+        {
+            new KeyValuePair<string, UnityAction>("LevelUp", LevelUp),
+            new KeyValuePair<string, UnityAction>("Destroy", DeleteThisSheet)
+        };
 
         GameEvent.BuildingBuilded(gameObject);
 
@@ -37,7 +79,7 @@ public class PeasanHouse : MonoBehaviour
     public void DeleteThisSheet()
     {
         SelectedObject.Deselect();
-        Destroy(gameObject,1);
+        Destroy(gameObject,0);
     }
 
     public void LevelUp()
@@ -51,7 +93,6 @@ public class PeasanHouse : MonoBehaviour
 
     public void UpdateValues(Level lev)
     {
-        information.LinkDown = houseObects[(int)level].GetComponent<ObjectInformation>();
         foreach (GameObject obj in houseObects)
         {
             obj.SetActive(false);
