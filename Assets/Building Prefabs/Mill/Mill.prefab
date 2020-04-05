@@ -95,10 +95,10 @@ MonoBehaviour:
   store: 0
   capacity: 100
   deliveryTriggerProcetage: 0.5
-  energyCutdown: 15
-  energyCutup: 150
   level: 0
   work: {fileID: 0}
+  wallPoints: []
+  _wallMode: 0
 --- !u!65 &6153801201285778682
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -961,6 +961,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5580916350219692131, guid: ef5602b72325d764bb6ac6b3b6ca24e7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0614020e6970db2479b03b17aa4b8015, type: 2}
+    - target: {fileID: -8261951696555191646, guid: ef5602b72325d764bb6ac6b3b6ca24e7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0614020e6970db2479b03b17aa4b8015, type: 2}
+    - target: {fileID: 7801655267501062854, guid: ef5602b72325d764bb6ac6b3b6ca24e7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0614020e6970db2479b03b17aa4b8015, type: 2}
+    - target: {fileID: -678655025697594940, guid: ef5602b72325d764bb6ac6b3b6ca24e7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0614020e6970db2479b03b17aa4b8015, type: 2}
+    - target: {fileID: 5452068790998213776, guid: ef5602b72325d764bb6ac6b3b6ca24e7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0614020e6970db2479b03b17aa4b8015, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5602b72325d764bb6ac6b3b6ca24e7, type: 3}
 --- !u!4 &6954498447952354536 stripped

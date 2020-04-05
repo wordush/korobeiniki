@@ -10,120 +10,81 @@ namespace Menu
 {
     public class SceneHandler : MonoBehaviour
     {
-        private static bool _intialize;
-
-        public List<Image> dark;
-        public float multiplyer;
-        public bool dar;
-
-        public delegate void SceneLoadHandler();
-        public event SceneLoadHandler ReadyToLoad;
-        [FormerlySerializedAs("AlreadyLoaded")] public bool alreadyLoaded;
-
-        [FormerlySerializedAs("NextSceneID")] public int nextSceneId;
-
-        private void Start()
+        public void Load(int id)
         {
-            if (!_intialize)
-            {
-                DontDestroyOnLoad(this);
-                _intialize = true;
-            }
-            dar = false;
-            ReadyToLoad += Load;
+            StartCoroutine(nameof(LoadCorutine), id);
         }
 
 
-        void Awake()
+
+        IEnumerator LoadCorutine(int id)
         {
-            foreach(Image im in dark)
+            DontDestroyOnLoad(this.gameObject);
+
+            EventSystem[] evts = FindObjectsOfType<EventSystem>();
+            foreach (EventSystem cv in evts)
             {
-                Color temp = new Color(255, 255, 255, 1);
-                im.color = temp;
+                cv.enabled = false;
             }
 
-        }
-
-        public void Update()
-        {
-            if (dar)
+            GameObject[] objs = GameObject.FindGameObjectsWithTag("SceneHider");
+            List<Image> images = new List<Image>();
+            foreach (GameObject obj in objs)
             {
-                EventSystem[] objs = FindObjectsOfType<EventSystem>();
-                foreach (EventSystem cv in objs)
-                {
-                    cv.enabled = false;
-                }
-                foreach (Image im in dark)
-                {
-                    Color temp = im.color;
-                    temp.a = Mathf.Clamp(temp.a + Time.deltaTime * multiplyer, 0, 1);
-                    im.color = temp;
-                }
+                DontDestroyOnLoad(obj);
+                if (obj.TryGetComponent<Image>(out Image imm))
+                    images.Add(imm);
             }
-            else
-            {
-                foreach (Image im in dark)
+
+            float transpend = 0;
+            if (images.Count >= 1)
+                while (transpend < 1)
                 {
-                    Color temp = im.color;
-                    temp.a = Mathf.Clamp(temp.a - Time.deltaTime * multiplyer, 0, 1);
-                    im.color = temp;
+                    foreach (Image im in images)
+                    {
+                        Color t = im.color;
+                        t.a = transpend;
+                        im.color = t;
+                    }
+
+                    transpend += 0.01f;
+                    yield return new WaitForSeconds(0.01f);
                 }
 
-                EventSystem[] objs = FindObjectsOfType<EventSystem>();
-                foreach (EventSystem cv in objs)
-                {
-                    cv.enabled = true;
-                }
-            }
-
-            if (dark?[0].color.a > 0.995f && !alreadyLoaded)
-            {
-                alreadyLoaded = true;
-                ReadyToLoad?.Invoke();
-            }
-        }
-
-        private void StartLoading()
-        {
-            Darker();
-        }
-
-        private void Load()
-        {
-            FindObjectOfType<SceneHandler>().StartCoroutine(nameof(LoadCorutine));
-        }
-
-
-
-        private void Darker()
-        {
-            FindObjectOfType<SceneHandler>().dar = true;
-        }
-
-        private void Lighter()
-        {
-            FindObjectOfType<SceneHandler>().dar = false;
-        }
-
-        public void NiceSceneLoader(int sceneId)
-        {
-            Debug.Log("Started to load");
-            alreadyLoaded = false;
-            nextSceneId = sceneId;
-            StartLoading();
-        }
-
-        IEnumerator LoadCorutine()
-        {
-            yield return null;
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(nextSceneId);
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(id);
 
             while (!asyncOperation.isDone)
             {
                 Debug.Log($"Loading : {asyncOperation.progress}");
+                yield return new WaitForSeconds(0.01f);
                 yield return null;
             }
-            Lighter();
+
+
+            if (images.Count >= 1)
+                while (transpend > 0)
+                {
+                    foreach (Image im in images)
+                    {
+                        Color t = im.color;
+                        t.a = transpend;
+                        im.color = t;
+                    }
+
+                    transpend -= 0.01f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+
+            evts = FindObjectsOfType<EventSystem>();
+            foreach (EventSystem cv in evts)
+            {
+                cv.enabled = true;
+            }
+
+            foreach (GameObject im in objs)
+                Destroy(im);
+
+            SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetActiveScene());
         }
     }
 }

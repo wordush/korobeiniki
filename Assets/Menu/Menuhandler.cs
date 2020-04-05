@@ -20,7 +20,7 @@ namespace Menu
 
         public void SceneLoad(int id)
         {
-            GameObject.FindGameObjectWithTag("SceneHandler").GetComponent<SceneHandler>().NiceSceneLoader(id);
+            GameObject.FindGameObjectWithTag("SceneHandler").GetComponent<SceneHandler>().Load(id);
         }
 
         public void Exit()

@@ -21,10 +21,10 @@ MonoBehaviour:
     value: 7.62
   aperture:
     overrideState: 1
-    value: 4.9
+    value: 2.4
   focalLength:
     overrideState: 1
-    value: 45.1
+    value: 39.1
   kernelSize:
     overrideState: 1
     value: 1
@@ -93,16 +93,16 @@ MonoBehaviour:
     value: -77
   saturation:
     overrideState: 1
-    value: -22.3
+    value: 0
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 1
-    value: -0.77
+    value: -0.26
   contrast:
     overrideState: 1
-    value: -0.7
+    value: 0
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -135,7 +135,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     overrideState: 1
-    value: {x: 0.9752602, y: 0.9133203, z: 1, w: 0}
+    value: {x: 0.9897838, y: 1, z: 0.99605876, w: 0}
   gain:
     overrideState: 0
     value: {x: 1, y: 1, z: 1, w: 0}
@@ -1357,7 +1357,7 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 72
+    value: 234
   sampleCount:
     overrideState: 1
     value: 32
