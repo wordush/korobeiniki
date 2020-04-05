@@ -9,12 +9,12 @@ using UnityEngine.Serialization;
 public class ObjectMenuHandler : MonoBehaviour
 {
 
-    [FormerlySerializedAs("Btns")] public Button[] btns;
+    public Button[] btns;
     public Button[] workerBtns;
     public GameObject workersMenu;
-    [FormerlySerializedAs("ItemlListMenu")] public GameObject itemlListMenu;
-    [FormerlySerializedAs("ObjectName")] public Text objectName;
-    [FormerlySerializedAs("ObjectDescription")] public Text objectDescription;
+    public GameObject itemlListMenu;
+    public Text objectName;
+    public Text objectDescription;
 
     private Transform[] _children;
 
@@ -188,7 +188,7 @@ public class ObjectMenuHandler : MonoBehaviour
 
     private void Off()
     {
-        gameObject.GetComponent<Image>().enabled = false;
+        this.gameObject.GetComponent<Image>().enabled = false;
         foreach (Transform child in _children)
         {
             child.gameObject.SetActive(false);
@@ -196,7 +196,7 @@ public class ObjectMenuHandler : MonoBehaviour
     }
 
 
-    void Start()
+    void Awake()
     {
         GameEvent.LateTik += OnInformationChanged;
 
@@ -204,6 +204,7 @@ public class ObjectMenuHandler : MonoBehaviour
         SelectedObject.Deselsected += OnObjectDeselected;
 
         _children = gameObject.GetComponentsInChildren<Transform>();
+        
         SelectedObject.Deselect();
     }
 

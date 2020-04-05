@@ -12,11 +12,11 @@ public class MusicSource : MonoBehaviour
 
     public static float PerfSoundVolume;
 
-    private void Start()
+    private void Awake()
     {
+        _source = GetComponent<AudioSource>();
         if (!initialize)
         {
-            _source = GetComponent<AudioSource>();
             _source.clip = music[Random.Range(0, music.Length)];
             _source.Play();
             DontDestroyOnLoad(this);

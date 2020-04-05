@@ -18,7 +18,7 @@ public class DragAndDrop : MonoBehaviour
     
     public void ToMenu(int id)
     {
-        GameObject.FindGameObjectWithTag("SceneHandler").GetComponent<SceneHandler>().NiceSceneLoader(id);
+        GameObject.FindGameObjectWithTag("SceneHandler").GetComponent<SceneHandler>().Load(id);
     }
 
 

@@ -45,12 +45,11 @@ public class SceneLogic : MonoBehaviour
          
         GameEvent.Built += OnHouseBuilded;
         GameEvent.PeasanSpawned += OnPeasanSpawned;
-        SelectedObject.Deselect();
+
         restList = GameObject.FindGameObjectWithTag("Buildings").GetComponentsInChildren<Rest>().ToList();
-        
     }
 
-    [FormerlySerializedAs("Timer")] public float timer;
+    public float timer;
 
     void Update()
     {
