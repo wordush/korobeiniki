@@ -94,7 +94,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
             if (peas.state == State.Work && trees.Count > 0)
             {
                 GameObject tree = trees.First();
-                work.SetVorkerGo(tree.transform.position, peas);
+                work.SetVorkerGo(tree, peas);
                 peas.Temprary = tree; // Запсиь дерева во временую переменную крестьянина 
                 treesInProcess.Add(trees.First());
                 trees.Remove(tree);
@@ -149,7 +149,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
 
 
         peasan.GetComponent<CharacterJoint>().connectedBody = b.GetComponent<Rigidbody>();
-        work.SetVorkerGo(work.destination.position , peasan);
+        work.SetVorkerGo(work.destination.gameObject , peasan);
         
     }
 
@@ -171,7 +171,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
                 case State.Rest:
                     if (peasan.energy >= energyCutup)
                     {
-                        work.SetVorkerGo(work.destination.position, peasan);
+                        work.SetVorkerGo(work.destination.gameObject, peasan);
                         peasan.state = State.Work;
                     }
                     break;

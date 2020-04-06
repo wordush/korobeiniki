@@ -13,6 +13,7 @@ TagManager:
   - SceneHandler
   - Tree
   - Brewno
+  - SceneHider
   layers:
   - Default
   - TransparentFX

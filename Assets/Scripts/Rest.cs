@@ -14,7 +14,6 @@ public class Rest : MonoBehaviour, IHaveName
         {
             PeasanController peasan = other.gameObject.GetComponent<PeasanController>();
             resters.Add(peasan);
-            RestGoing += peasan.OnEnergyRecive; 
 
         }
     }
@@ -25,7 +24,6 @@ public class Rest : MonoBehaviour, IHaveName
         {
             PeasanController peasan = other.gameObject.GetComponent<PeasanController>();
             resters.Remove(peasan);
-            RestGoing -= peasan.OnEnergyRecive;
         }
     }
 

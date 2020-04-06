@@ -43,7 +43,7 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
                 PeasanController worker = logic.peasanList.Last();
                 workerslocal.Add(worker);
                 // SetVorkerGo(destination.position, worker);
-                worker.SetDestination(destination.position);
+                worker.SetDestination(destination.gameObject);
                 logic.peasanList.Remove(worker);
                 worker.workObj = this;
                 worker.work = type;
@@ -59,7 +59,7 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
         }
     }
 
-    public void SetVorkerGo(Vector3 goal, PeasanController peasan)
+    public void SetVorkerGo(GameObject goal, PeasanController peasan)
     {
         peasan.SetDestination(goal);
         peasan.taskDone = null;
@@ -83,13 +83,11 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
         if (workerslocal.Contains(peasan) && state)
         {
             activeWorkers.Add(peasan);
-            GetEnergy += peasan.OnGetEnergy;
             peasan.state = State.Work;
         }
         if (workerslocal.Contains(peasan) && !state)
         {
             activeWorkers.Remove(peasan);
-            GetEnergy -= peasan.OnGetEnergy;
             peasan.state = State.Rest;
         }
         
@@ -107,7 +105,7 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
     public void Start()
     {
         curWork = gameObject.GetComponent<IWorkStorage>();
-        storage = new ItemStorage(destination.position);
+        storage = new ItemStorage(destination.gameObject);
         GameEvent.Tik += TicUpdate;
     }
     

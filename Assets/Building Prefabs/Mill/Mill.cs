@@ -63,7 +63,7 @@ public class Mill : MonoBehaviour, IWorkStorage, IHaveName, IHaveFunctions
                         work.SetVorkerRest(peasan);
                     break;
                 case State.Rest:
-                        work.SetVorkerGo(work.destination.position, peasan);
+                        work.SetVorkerGo(work.destination.gameObject, peasan);
                     break;
             }
         }
