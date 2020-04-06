@@ -16,9 +16,6 @@ public class PeasanController : MonoBehaviour , IHaveStorage
     public int energy;
     public int energyMax;
 
-    [SerializeField]private int knockedTimeOut = 5;
-    private bool _knocked;
-    private float _knockedTimer;
     public float waiting;
     public bool wait;
 
@@ -27,21 +24,19 @@ public class PeasanController : MonoBehaviour , IHaveStorage
 
     public ItemStorage items;
 
-    public ItemStorage PublStorage {get{ return items; } }
+    public ItemStorage PublStorage { get { return items; } }
 
     public delegate void TaskHandler(PeasanController peasan);
     public TaskHandler taskDone;
     public GameObject Temprary;
-    bool activated;
-    public Vector3 destination;
+    public bool activated;
+    public GameObject destination;
 
     public SceneLogic logic;
     public NavMeshAgent agent;
-    private float _speedAgent;
 
     private bool _follow;
     private GameObject _followTarg;
-    private float _followDist;
 
     [FormerlySerializedAs("AgentVelocity")] public Vector3 agentVelocity;
 
@@ -52,7 +47,7 @@ public class PeasanController : MonoBehaviour , IHaveStorage
         logic = GameObject.FindGameObjectWithTag("Buildings").GetComponent<SceneLogic>();
         GameEvent.SpawnePeasan(this);
         agent.stoppingDistance = 0.5f;
-        items = new ItemStorage(Vector3.zero);
+        items = new ItemStorage(gameObject);
 
         agent.updateRotation = false;
         Physics.IgnoreLayerCollision(9,9);
@@ -62,7 +57,7 @@ public class PeasanController : MonoBehaviour , IHaveStorage
     {
         Vector3 position = gameObject.transform.position;
         agent.SetDestination(logic.NearestRest(position).destination.position);
-        destination = logic.NearestRest(position).destination.position;
+        destination = logic.NearestRest(position).destination.gameObject;
         activated = true;
     }
 
@@ -75,22 +70,12 @@ public class PeasanController : MonoBehaviour , IHaveStorage
 
 
 
-        float dist = Vector3.Distance(gameObject.transform.position, destination);
+        float dist = Vector3.Distance(gameObject.transform.position, destination.transform.position);
 
         if (dist <= 0.6f && activated)
         {
             activated = false;
             taskDone?.Invoke(this);
-        }
-
-        if (_knocked)
-        {
-            _knockedTimer += Time.deltaTime;
-            if (_knockedTimer >= knockedTimeOut)
-            {
-                _knocked = !_knocked;
-                _knockedTimer = 0;
-            }
         }
 
         if (wait)
@@ -103,7 +88,7 @@ public class PeasanController : MonoBehaviour , IHaveStorage
             else
             {
                 agent.enabled = true;
-                agent.SetDestination(destination);
+                agent.SetDestination(destination.transform.position);
                 wait = false;
             }
         }
@@ -116,39 +101,22 @@ public class PeasanController : MonoBehaviour , IHaveStorage
         
     }
 
-    public void SetDestination(Vector3 point)
+    public void SetDestination(GameObject point)
     {
         destination = point;
-        agent.SetDestination(destination);
+        agent.SetDestination(destination.transform.position);
         activated = true;
     }
 
-    public void SetFollow(GameObject target, float distance)
+    public void SetFollow(GameObject target)
     {
         _follow = true;
         _followTarg = target;
-        _followDist = distance;
     }
 
     public void UnFollow()
     {
         _follow = false;
-    }
-
-    public void OnGetEnergy(int amount)
-    {
-        energy -= amount;
-        if (energy <= 0)
-        {
-            Debug.LogWarning($"Peasan '{name}' knocked out, for {knockedTimeOut} seconds (low energy)");
-            // Knocked animation trigger space
-            _knocked = true;
-        } 
-    }
-
-    public void OnEnergyRecive(int count)
-    {
-        energy += count;
     }
 }
 

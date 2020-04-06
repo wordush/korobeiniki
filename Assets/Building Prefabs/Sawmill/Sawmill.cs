@@ -34,8 +34,8 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
     private Vector3 _zoneTempE;
     private bool _selectZone;
 
-    public GameObject[] allTrees;
-    public List<GameObject> treesInProcess;
+    public static GameObject[] allTrees;
+    public static List<GameObject> treesInProcess;
     private bool _fSelected;
 
     public List<GameObject> baulks;
@@ -84,7 +84,11 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
         GameEvent.Tik += TikUpdate;
         work.done += DoneHandler;
 
-        allTrees = GameObject.FindGameObjectsWithTag("Tree");
+        if (allTrees == null)
+            allTrees = GameObject.FindGameObjectsWithTag("Tree");
+
+        if (treesInProcess == null)
+            treesInProcess = new List<GameObject>();
     }
 
     void TikUpdate()
@@ -94,7 +98,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
             if (peas.state == State.Work && trees.Count > 0)
             {
                 GameObject tree = trees.First();
-                work.SetVorkerGo(tree.transform.position, peas);
+                work.SetVorkerGo(tree, peas);
                 peas.Temprary = tree; // Запсиь дерева во временую переменную крестьянина 
                 treesInProcess.Add(trees.First());
                 trees.Remove(tree);
@@ -149,7 +153,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
 
 
         peasan.GetComponent<CharacterJoint>().connectedBody = b.GetComponent<Rigidbody>();
-        work.SetVorkerGo(work.destination.position , peasan);
+        work.SetVorkerGo(work.destination.gameObject , peasan);
         
     }
 
@@ -171,7 +175,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
                 case State.Rest:
                     if (peasan.energy >= energyCutup)
                     {
-                        work.SetVorkerGo(work.destination.position, peasan);
+                        work.SetVorkerGo(work.destination.gameObject, peasan);
                         peasan.state = State.Work;
                     }
                     break;

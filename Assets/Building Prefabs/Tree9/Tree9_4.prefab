@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   natCol: {r: 0, g: 0, b: 0, a: 0}
-  Label: {r: 0.6132076, g: 0.2805714, b: 0.2805714, a: 1}
-  Tree: {fileID: 114418}
+  label: {r: 0.6132076, g: 0.2805714, b: 0.2805714, a: 1}
+  tree: {fileID: 114418}
 --- !u!1 &3210616317359227311
 GameObject:
   m_ObjectHideFlags: 0

@@ -110,10 +110,10 @@ namespace GameStructure
     public class ItemStorage
     {
         public Dictionary<Item, int> items;
-        public Vector3 Destination;
+        public GameObject Destination;
         public bool ConsunationStarted;
 
-        public ItemStorage(Vector3 dest)
+        public ItemStorage(GameObject dest)
         {
             items = new Dictionary<Item, int>();
             Destination = dest;

@@ -5,95 +5,91 @@ using UnityEngine;
 
 public class CameraMovment : MonoBehaviour
 {
-    public enum CameraMode
-    {
-        AdaptiveHightMode,
-        FixedHeightMode
-    }
-
-
-    private Vector3 _camPos;
-    private Quaternion _camRot;
     private GameObject _camObj;
-    public Vector3 _cameraPositionByHit;
-    private float _angle;
+    private Vector3 _position;
+    private Quaternion _rotationDelta;
+    private float _angle = 0;
 
     private RaycastHit _hit;
-    private Vector3 _targetPos;    
-    
+
     private float _scale = 1;
     public float minScale;
     public float maxScale;
 
-
-
-    public float moveSidesSize;
     public float slideSensitivity;
-    
+
+    public float midleMouseSens; 
+    private Vector3 lastPositon;
+
     void Start()
     {
         _camObj = this.gameObject;
-        _camPos = _camObj.transform.position;
-        _camRot = _camObj.transform.rotation;
-        _targetPos = Vector3.up * 100;
+        _position = gameObject.transform.position;
+        _rotationDelta = gameObject.transform.rotation;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Ray ray = new Ray(_targetPos, Vector3.down);
+        Ray ray = new Ray(_position, eevec(_rotationDelta.eulerAngles));
         int layerMask = (1 << 8) | (1 << 9);
         layerMask = ~layerMask;
-        Physics.Raycast(ray, out _hit, Mathf.Infinity, layerMask);
+        bool isRay = Physics.Raycast(ray, out _hit, Mathf.Infinity, layerMask);
 
-        _camRot = Quaternion.LookRotation(_hit.point - _camPos, Vector3.up);
-
-        _scale -= Input.mouseScrollDelta.y * 0.1f;
-        _scale = Mathf.Clamp(_scale,minScale,maxScale);
-        _camPos = _hit.point + _cameraPositionByHit * _scale;
-
-        _camObj.transform.position = Vector3.Lerp(_camObj.transform.position, _camPos , Time.deltaTime * 10);
-        _camObj.transform.rotation = Quaternion.Lerp(_camObj.transform.rotation,_camRot, Time.deltaTime * 10);
-
-
-        if ((Input.mousePosition.y < moveSidesSize && Input.mousePosition.y > 0) || (Input.GetKey(KeyCode.S)))// Down
-        {
-            _targetPos.z -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-            _targetPos.x -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-        }
-        else
-        if ((Screen.height - Input.mousePosition.y < moveSidesSize && Input.mousePosition.y < Screen.height) || (Input.GetKey(KeyCode.W)))// Up
-        {
-            _targetPos.z += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-            _targetPos.x += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-        }
-        if ((Input.mousePosition.x < moveSidesSize && Input.mousePosition.x > 0) || (Input.GetKey(KeyCode.A))) // Left 
-        {
-            _targetPos.z += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-            _targetPos.x -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-        }
-        else
-        if ((Screen.width - Input.mousePosition.x < moveSidesSize && Input.mousePosition.x < Screen.width) || (Input.GetKey(KeyCode.D)))// Right
-        {
-            _targetPos.z -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-            _targetPos.x += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
-        }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && isRay)
         {
             _angle += 90 * Time.deltaTime;
-            _cameraPositionByHit = RotateAround(_cameraPositionByHit, new Vector3(0, _cameraPositionByHit.y, 0), 90 * Time.deltaTime);
+            _position -= _position - RotateAround(_position, new Vector3(_hit.point.x, _position.y, _hit.point.z), 90 * Time.deltaTime);
         }
         else
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && isRay)
         {
             _angle -= 90 * Time.deltaTime;
-            _cameraPositionByHit = RotateAround(_cameraPositionByHit, new Vector3(0, _cameraPositionByHit.y, 0), -90 * Time.deltaTime);
+            _position -= _position - RotateAround(_position, new Vector3(_hit.point.x, _position.y, _hit.point.z), -90 * Time.deltaTime);
         }
 
-    }
+        _scale -= Input.mouseScrollDelta.y * 0.1f;
+        _scale = Mathf.Clamp(_scale, minScale, maxScale);
 
-    void Update()
-    {
+        _rotationDelta = Quaternion.LookRotation(_hit.point - _position, Vector3.up);
+
+        if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.Mouse2))// Down
+        {
+            _position.z -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _position.x -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+        }
+        else
+        if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.Mouse2))// Up
+        {
+            _position.z += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _position.x += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+        }
+        if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.Mouse2)) // Left 
+        {
+            _position.z += Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _position.x -= Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+        }
+        else
+        if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.Mouse2))// Right
+        {
+            _position.z -= Mathf.Sin(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+            _position.x += Mathf.Cos(_angle * Mathf.Deg2Rad) * slideSensitivity * _scale * 0.1f;
+        }
+        if (Input.GetKey(KeyCode.Mouse2))
+        {
+            _position += RotateAround(Input.mousePosition - lastPositon,Vector3.up, _angle) / 30 * midleMouseSens;
+        }
+
+        ray = new Ray(_position, eevec(_rotationDelta.eulerAngles));
+
+        isRay = Physics.Raycast(ray, out _hit, Mathf.Infinity, layerMask);
+
+        _position = _hit.point + (_position - _hit.point).normalized * _scale * 10;
         
+        //deltaPositon = Input.mousePosition - lastPositon;
+        lastPositon = Input.mousePosition;
+
+        _camObj.transform.rotation = Quaternion.Lerp(_camObj.transform.rotation, _rotationDelta, Time.deltaTime * 10);
+        _camObj.transform.position = Vector3.Lerp(_camObj.transform.position, _position, Time.deltaTime * 10);
     }
 
     public Vector3 RotateAround(Vector3 pos,Vector3 point,float angle)
@@ -102,5 +98,10 @@ public class CameraMovment : MonoBehaviour
         dir = Quaternion.Euler(new Vector3(0, angle, 0)) * dir;
         pos = dir + point;
         return pos;
+    }
+
+    public Vector3 eevec(Vector3 eul)
+    {
+        return Quaternion.Euler(eul) * Vector3.forward;
     }
 }

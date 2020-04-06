@@ -15,6 +15,8 @@ public class DragAndDrop : MonoBehaviour
     private Transform _maskTmp;
     private Vector3 _curPos;
 
+    public int autoSpawnId;
+
     
     public void ToMenu(int id)
     {
@@ -54,8 +56,16 @@ public class DragAndDrop : MonoBehaviour
             }
         }
     }
+
+
+
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.U))
+            SetMask(autoSpawnId);
+
+
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         int layerMask = 1 << 8;
@@ -78,7 +88,7 @@ public class DragAndDrop : MonoBehaviour
                 _maskTmp.localEulerAngles -= new Vector3(0, 72 * Time.deltaTime, 0);
             }
 
-            if (Input.GetMouseButtonDown(0) && isOn)
+            if ((Input.GetMouseButtonDown(0) && isOn) || (Input.GetKeyDown(KeyCode.U) && isOn))
             {
                 _originalTmp.gameObject.SetActive(true);
                 _originalTmp.position = _maskTmp.position;

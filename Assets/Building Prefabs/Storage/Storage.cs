@@ -40,7 +40,7 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
             _isInitialised = false;
         }
         deliveryInfo = new Dictionary<PeasanController, KeyValuePair<Item, ItemStorage>>();
-        storage = new ItemStorage(destination.position);
+        storage = new ItemStorage(destination.gameObject);
         GameEvent.Tik += TikUpdate;
         GameEvent.LateTik += LateTikUpdate;
         GameEvent.FullItems += OnFullItems;
@@ -87,7 +87,7 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
         {
             case State.Consum1St:
                 ItemStorage.ItemTransfer(deliveryInfo[peasan].Key, deliveryInfo[peasan].Value, peasan.items);
-                peasan.SetDestination(destination.position);
+                peasan.SetDestination(destination.gameObject);
                 peasan.state = State.Consum2Nd;
                 deliveryInfo[peasan].Value.ConsunationStarted = false;
                 Debug.Log("First stage of delivery done");
