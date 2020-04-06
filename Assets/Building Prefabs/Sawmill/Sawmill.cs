@@ -34,8 +34,8 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
     private Vector3 _zoneTempE;
     private bool _selectZone;
 
-    public GameObject[] allTrees;
-    public List<GameObject> treesInProcess;
+    public static GameObject[] allTrees;
+    public static List<GameObject> treesInProcess;
     private bool _fSelected;
 
     public List<GameObject> baulks;
@@ -84,7 +84,11 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
         GameEvent.Tik += TikUpdate;
         work.done += DoneHandler;
 
-        allTrees = GameObject.FindGameObjectsWithTag("Tree");
+        if (allTrees == null)
+            allTrees = GameObject.FindGameObjectsWithTag("Tree");
+
+        if (treesInProcess == null)
+            treesInProcess = new List<GameObject>();
     }
 
     void TikUpdate()

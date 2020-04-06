@@ -71,6 +71,8 @@
     <Compile Include="Assets\Menu\MenuSoundHandler.cs" />
     <Compile Include="Assets\Menu\SceneHandler.cs" />
     <Compile Include="Assets\Menu\SettingInterface.cs" />
+    <Compile Include="Assets\NVJOB Water Shader SAF\Water Shader\Water.cs" />
+    <Compile Include="Assets\NVJOB Water Shader SAF\Water Shader\WindZoneRot.cs" />
     <Compile Include="Assets\Peasan Presets\PeasanController.cs" />
     <Compile Include="Assets\Scripts\Baulk.cs" />
     <Compile Include="Assets\Scripts\CameraMovment.cs" />
@@ -86,6 +88,12 @@
     <Compile Include="Assets\Scripts\TreeLife.cs" />
     <Compile Include="Assets\Scripts\Work.cs" />
     <Compile Include="Assets\Terrain scripting\Pohuj.cs" />
+    <None Include="Assets\NVJOB Water Shader SAF\Example Scenes\Materials\Trees\STCustomCore.cginc" />
+    <None Include="Assets\NVJOB Water Shader SAF\Example Scenes\Materials\Trees\STCustom.shader" />
+    <None Include="Assets\NVJOB Water Shader SAF\Water Shader\Water Shader Type 2.shader" />
+    <None Include="Assets\NVJOB Water Shader SAF\Example Scenes\Materials\Trees\STBCustomCore.cginc" />
+    <None Include="Assets\NVJOB Water Shader SAF\Water Shader\Water Shader Type 1.shader" />
+    <None Include="Assets\NVJOB Water Shader SAF\Example Scenes\Materials\Trees\STBCustom.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Games/korobeiniki/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
