@@ -5,7 +5,7 @@ namespace Menu
 {
     public class MenuSoundHandler : MonoBehaviour
     {
-        [FormerlySerializedAs("Click")] public AudioClip click;
+        public AudioClip click;
 
         private AudioSource _source;
 

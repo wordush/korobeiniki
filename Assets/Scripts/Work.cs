@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,13 +9,30 @@ using UnityEngine.Serialization;
 
 public class Work : MonoBehaviour , IHaveStorage , INeedWorker
 {
-    [SerializeField] private GameStructure.Work type;
-
     public IWorkStorage curWork;
 
     public delegate void TaskGoing(PeasanController peasan);
     public TaskGoing done;
     
+    [SerializeField]
+    public Transform destination;
+    public List<PeasanController> workerslocal;
+    public List<PeasanController> Workers => workerslocal;
+    public List<PeasanController> activeWorkers;
+    public int vacancyCount;
+    [HideInInspector]
+    public delegate void WorkHandler(int amount);
+    public event WorkHandler WorkGoing;
+    public ItemStorage PublStorage => storage;
+    public ItemStorage storage;
+
+
+    public void Start()
+    {
+        curWork = gameObject.GetComponent<IWorkStorage>();
+        storage = new ItemStorage(destination.gameObject);
+        GameEvent.Tik += TicUpdate;
+    }
 
     public void RemoveWorker()
     {
@@ -26,7 +44,6 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
             if (activeWorkers.Contains(peasan))
                 activeWorkers.Remove(peasan);
             logic.peasanList.Add(peasan);
-            peasan.work = GameStructure.Work.Rest;
             peasan.state = State.Rest;
             peasan.SetRest();
             Debug.Log("Worker removed");
@@ -42,11 +59,8 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
             {
                 PeasanController worker = logic.peasanList.Last();
                 workerslocal.Add(worker);
-                // SetVorkerGo(destination.position, worker);
-                worker.SetDestination(destination.gameObject);
                 logic.peasanList.Remove(worker);
-                worker.workObj = this;
-                worker.work = type;
+                worker.work = this;
                 Debug.Log("Worker getted");
             } else
             {
@@ -61,7 +75,6 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
 
     public void SetVorkerGo(GameObject goal, PeasanController peasan)
     {
-        peasan.SetDestination(goal);
         peasan.taskDone = null;
         peasan.taskDone += WorkerDone;
     }
@@ -95,35 +108,39 @@ public class Work : MonoBehaviour , IHaveStorage , INeedWorker
 
     void TicUpdate()
     {
-        if (activeWorkers.Count >= 1 && !curWork.FullOrNot())
-        {
-            WorkGoing?.Invoke(activeWorkers.Count);
-            GetEnergy?.Invoke(1);
-        }
-    }
 
-    public void Start()
-    {
-        curWork = gameObject.GetComponent<IWorkStorage>();
-        storage = new ItemStorage(destination.gameObject);
-        GameEvent.Tik += TicUpdate;
     }
-    
-    [SerializeField]
-    public Transform destination;
-    public List<PeasanController> workerslocal;
-    public List<PeasanController> Workers { get { return workerslocal; } }
-    public List<PeasanController> activeWorkers;
-    public int vacancyCount;
-    [HideInInspector]
-    public delegate void WorkHandler(int amount);
-    public event WorkHandler WorkGoing;
-    public event WorkHandler GetEnergy;
-    public ItemStorage PublStorage => storage;
-    public ItemStorage storage;
+}
+
+public class PeasanActivity
+{
+    public GameObject destenation;
+    public int priority;
+    public ActivityType type;
+    public List<string> corutineNames;
+    public PeasanController peasan;
+
+    public PeasanActivity(GameObject destenation, ActivityType type,  List<string> corutineNames, int priority = 0)
+    {
+        this.destenation = destenation;
+        this.type = type;
+        this.priority = priority;
+        this.corutineNames = corutineNames;
+        peasan = null;
+    }
+}
+
+public enum ActivityType
+{
+    TreeCut,
 }
 
 public interface IWorkStorage
 {
     bool FullOrNot();
+}
+
+public interface IWorkActivityList
+{
+    List<PeasanActivity> AcivityList { get; }
 }

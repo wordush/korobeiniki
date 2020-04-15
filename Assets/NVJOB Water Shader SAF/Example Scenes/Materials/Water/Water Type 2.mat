@@ -21,7 +21,7 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
-        m_Scale: {x: 50, y: 50}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _BumpMap2:
         m_Texture: {fileID: 2800000, guid: 9926e8b8960d1c24da43e476d2968241, type: 3}
@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMapDetail:
         m_Texture: {fileID: 2800000, guid: 114b40810568bb14382fe003c4f290ef, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 5}
         m_Offset: {x: 0, y: 0}
     - _Cube:
         m_Texture: {fileID: 8900000, guid: c71b18c212675d74f98e82786d36bd6d, type: 2}
@@ -115,7 +115,7 @@ Material:
     - _Brightness: 1
     - _BumpScale: 1
     - _Contrast: 1
-    - _ContrastMt: 0.13
+    - _ContrastMt: -0.03
     - _Cutoff: 0.52
     - _Cycle: 3
     - _Depth: 2.2
@@ -131,40 +131,42 @@ Material:
     - _FadeLimit: 0.1
     - _GlossAmount: 0.03
     - _GlossMapScale: 1
-    - _Glossiness: 0.95
+    - _Glossiness: 1
     - _GlossyReflections: 1
     - _Intensity: 2
-    - _IntensityMicrowave: 0.68
+    - _IntensityMicrowave: 0.25
     - _IntensityMt: 4.2
-    - _IntensityNm: 1
-    - _IntensityNmDetail: 0.2
+    - _IntensityNm: 3.78
+    - _IntensityNmDetail: 1.71
+    - _IntensityOc: 1
     - _IntensityRef: 2.3
     - _InvFade: 0
-    - _MainDetailFlow: 1
-    - _MainDetailScale: 1
-    - _Metallic: 0.95
-    - _MicrowaveScale: 1
+    - _Light: 1
+    - _MainDetailFlow: 1.033
+    - _MainDetailScale: 4.23
+    - _Metallic: 1
+    - _MicrowaveScale: 1.47
     - _MinuteDetailIntensity: 1.455
     - _MinuteDetailScrollSpeed: 0.089
     - _Mitigation: 22.4
     - _Mode: 0
     - _NormalDetailFlow: 1
-    - _NormalmapDetailScale: 1.2
+    - _NormalmapDetailScale: 1.36
     - _NormalmapDetailScaleA: 1
     - _NormalmapDetailScaleB: 5
-    - _NormalmapDetailSpeed: -0.1
+    - _NormalmapDetailSpeed: -0.673
     - _OcclusionStrength: 1
-    - _Parallax: 0.1
-    - _ParallaxScale: 0.51
+    - _Parallax: -0.144
+    - _ParallaxScale: 4.6
     - _Radius: 1
     - _Reflect: 1
     - _RefractionIntensity: 0.61
     - _RefractionSpeed: 1.61
-    - _ReverseFlow: 2.3
+    - _ReverseFlow: 0.17
     - _Saturation: 1
     - _Shininess: 0.157
     - _SmoothnessTextureChannel: 0
-    - _SoftFactor: 0.11
+    - _SoftFactor: 0.189
     - _SpecularHighlights: 1
     - _Speed: 0.5
     - _SpeedX: 0.1
@@ -176,6 +178,11 @@ Material:
     - _WaveIntensity: -0.47
     - _WaveScrollSpeed: 0.1
     - _WaveSpeed: 20
+    - _WindAmplitude: 1
+    - _WindConstantTilt: 1
+    - _WindDegreeSlope: 1
+    - _WindQuality: 0
+    - _WindSpeed: 1
     - _ZWrite: 1
     m_Colors:
     - _BlendColor: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
@@ -183,6 +190,7 @@ Material:
     - _DiffuseColor: {r: 0.32352936, g: 0.32352936, b: 0.32352936, a: 1}
     - _EdgeColor: {r: 0.5588235, g: 0.5588235, b: 0.5588235, a: 1}
     - _EmissionColor: {r: 0.5441177, g: 0.5441177, b: 0.5441177, a: 1}
+    - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _ReflectColor: {r: 0.07605405, g: 0.084, b: 0.082864866, a: 1}
     - _SpecColor: {r: 0.4, g: 0.4, b: 0.3764706, a: 1}
     - _SpecularColor: {r: 0.5808823, g: 0.5808823, b: 0.5808823, a: 1}

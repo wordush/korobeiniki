@@ -99,7 +99,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
             {
                 GameObject tree = trees.First();
                 work.SetVorkerGo(tree, peas);
-                peas.Temprary = tree; // Запсиь дерева во временую переменную крестьянина 
+                peas.temprary = tree; // Запсиь дерева во временую переменную крестьянина 
                 treesInProcess.Add(trees.First());
                 trees.Remove(tree);
                 peas.state = State.Work1C;
@@ -121,7 +121,7 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
                 StartCoroutine(nameof(TreeCut), peasan);
                 break;
             case State.Work2C:
-                Destroy(peasan.Temprary);
+                Destroy(peasan.temprary);
                 peasan.state = State.Work;
                 if (work.storage.items.ContainsKey(Item.Wood))
                     work.storage.items[Item.Wood] += 10;
@@ -140,12 +140,12 @@ public class Sawmill : MonoBehaviour , IWorkStorage, IHaveName , IHaveDescriptio
 
         peasan.state = State.Work2C;
         peasan.agent.enabled = true;
-        treesInProcess.Remove(peasan.Temprary);
-        allTrees = allTrees.Where(val =>  val != peasan.Temprary).ToArray();
-        Destroy(peasan.Temprary);
-        Transform b = Instantiate(Brewno, peasan.Temprary.transform.position, Quaternion.identity);
+        treesInProcess.Remove(peasan.temprary);
+        allTrees = allTrees.Where(val =>  val != peasan.temprary).ToArray();
+        Destroy(peasan.temprary);
+        Transform b = Instantiate(Brewno, peasan.temprary.transform.position, Quaternion.identity);
         b.GetComponent<Rigidbody>().AddTorque(new Vector3(0.3f,0.3f,0.3f));
-        peasan.Temprary = b.gameObject;
+        peasan.temprary = b.gameObject;
         
         //wait for tree falls
         
