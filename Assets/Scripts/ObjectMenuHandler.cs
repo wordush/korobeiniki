@@ -38,12 +38,7 @@ public class ObjectMenuHandler : MonoBehaviour
         }
 
 
-
-
-
-        IHaveStorage publicStorage;
-
-        if (SelectedObject.Get().TryGetComponent<IHaveStorage>(out publicStorage))
+        if (SelectedObject.Get().TryGetComponent(out IHaveStorage publicStorage))
         {
             itemlListMenu.SetActive(true);
 
@@ -71,10 +66,7 @@ public class ObjectMenuHandler : MonoBehaviour
         }
 
 
-
-        INeedWorker needWorker;
-
-        if (SelectedObject.Get().TryGetComponent<INeedWorker>(out needWorker))
+        if (SelectedObject.Get().TryGetComponent(out INeedWorker needWorker))
         {
             workersMenu.SetActive(true);
             for (int i = 0; i < workerBtns.Length; i++)
@@ -108,10 +100,7 @@ public class ObjectMenuHandler : MonoBehaviour
         }
 
 
-
-        IHaveFunctions haveFunctions;
-
-        if (SelectedObject.Get().TryGetComponent<IHaveFunctions>(out haveFunctions))
+        if (SelectedObject.Get().TryGetComponent(out IHaveFunctions haveFunctions))
         {
 
             for (int i = 0; i < btns.Length; i++)
@@ -134,33 +123,19 @@ public class ObjectMenuHandler : MonoBehaviour
         }
 
 
+        objectName.text = SelectedObject.Get().TryGetComponent<IHaveName>(out var haveName) ? 
+            haveName.Name : "I dont know what a fuck is it";
 
-        IHaveName haveName;
 
-        if (SelectedObject.Get().TryGetComponent<IHaveName>(out haveName))
-            objectName.text = haveName.Name;
-        else
-            objectName.text = "I dont know what a fuck is it";
-
-        
-
-        IHaveDescription haveDescription;
-
-        if (SelectedObject.Get().TryGetComponent<IHaveDescription>(out haveDescription))
-            objectDescription.text = haveDescription.Description;
-        else
-            objectDescription.text = "I dont how to describe it";
+        objectDescription.text = SelectedObject.Get().TryGetComponent(out IHaveDescription haveDescription) ?
+            haveDescription.Description : "I dont how to describe it";
     }
 
     public void OnInformationChanged()
     {
         if (SelectedObject.IsActiv())
         {
-            IHaveStorage publicStorage;
-
-            
-
-            if (SelectedObject.Get().TryGetComponent<IHaveStorage>(out publicStorage))
+            if (SelectedObject.Get().TryGetComponent(out IHaveStorage publicStorage))
             {
                 itemlListMenu.SetActive(true);
 

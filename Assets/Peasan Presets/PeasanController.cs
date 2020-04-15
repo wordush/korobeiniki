@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 public class PeasanController : MonoBehaviour , IHaveStorage
 {
     public State state;
-    public GameStructure.Work work;
     public int age;
     public float walkSpeed;
     public int healthPoints;
@@ -20,37 +19,35 @@ public class PeasanController : MonoBehaviour , IHaveStorage
     public bool wait;
 
     public PeasanHouse house;
-    public Work workObj;
+    public Work work;
 
     public ItemStorage items;
 
-    public ItemStorage PublStorage { get { return items; } }
+    public ItemStorage PublStorage => items;
 
     public delegate void TaskHandler(PeasanController peasan);
     public TaskHandler taskDone;
-    public GameObject Temprary;
+    public GameObject temprary;
     public bool activated;
     public GameObject destination;
 
     public SceneLogic logic;
     public NavMeshAgent agent;
 
-    private bool _follow;
-    private GameObject _followTarg;
-
-    [FormerlySerializedAs("AgentVelocity")] public Vector3 agentVelocity;
+    public Vector3 agentVelocity;
 
     public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.angularSpeed = 1000;
         logic = GameObject.FindGameObjectWithTag("Buildings").GetComponent<SceneLogic>();
         GameEvent.SpawnePeasan(this);
-        agent.stoppingDistance = 0.5f;
+        agent.stoppingDistance = 0.2f;
         items = new ItemStorage(gameObject);
 
         agent.updateRotation = false;
         Physics.IgnoreLayerCollision(9,9);
+
+        GameEvent.Tik += TikUpdate;
     }
 
     public void SetRest()
@@ -77,46 +74,11 @@ public class PeasanController : MonoBehaviour , IHaveStorage
             activated = false;
             taskDone?.Invoke(this);
         }
-
-        if (wait)
-        {
-            if (waiting > 0)
-            {
-                agent.enabled = false;
-                waiting -= Time.deltaTime;
-            }
-            else
-            {
-                agent.enabled = true;
-                agent.SetDestination(destination.transform.position);
-                wait = false;
-            }
-        }
-
-        if (_follow)
-        {
-            agent.destination = _followTarg.transform.position;
-        }
-        
-        
     }
 
-    public void SetDestination(GameObject point)
+    public void TikUpdate()
     {
-        destination = point;
         agent.SetDestination(destination.transform.position);
-        activated = true;
-    }
-
-    public void SetFollow(GameObject target)
-    {
-        _follow = true;
-        _followTarg = target;
-    }
-
-    public void UnFollow()
-    {
-        _follow = false;
     }
 }
 

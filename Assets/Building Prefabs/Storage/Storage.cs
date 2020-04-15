@@ -54,61 +54,12 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
 
     private void LateTikUpdate()
     {
-        OnGetEnergy?.Invoke(1);
-        if (DeliveryBoys.Count > 0 && (Need.Count > 0 || Full.Count > 0))
-        {
-            switch (_switch)
-            {
-                case true:
-                    PeasanController boy = DeliveryBoys.First();
-                    KeyValuePair<Item,ItemStorage> goal = Full.First();
-
-                    goal.Value.ConsunationStarted = true;
-                    boy.state = State.Consum1St;
-                    boy.SetDestination(Full.First().Value.Destination);
-                    deliveryInfo.Add(boy, goal);
-                    boy.taskDone += TaskDone;
-
-                    Full.Remove(goal.Key);
-                    ActiveDeliveryBoys.Add(boy);
-                    DeliveryBoys.Remove(boy);
-                    _switch = false;
-                    break;
-                case false:
-                    _switch = true;
-                    break;
-            }
-        }
+        
     }
 
     public void TaskDone(PeasanController peasan)
     {
-        switch (peasan.state)
-        {
-            case State.Consum1St:
-                ItemStorage.ItemTransfer(deliveryInfo[peasan].Key, deliveryInfo[peasan].Value, peasan.items);
-                peasan.SetDestination(destination.gameObject);
-                peasan.state = State.Consum2Nd;
-                deliveryInfo[peasan].Value.ConsunationStarted = false;
-                Debug.Log("First stage of delivery done");
-                break;
-            case State.Consum2Nd:
-                ItemStorage.ItemTransfer(deliveryInfo[peasan].Key, peasan.items, storage);
-                peasan.state = State.Rest;
-                ActiveDeliveryBoys.Remove(peasan);
-                DeliveryBoys.Add(peasan);
-                deliveryInfo.Remove(peasan);
-                peasan.taskDone -= TaskDone;
-                peasan.SetRest();
-                Debug.Log("Second stage of delivery done");
-                break;
-            case State.Delivery1St:
-
-                break;
-            case State.Delivery2Nd:
-
-                break;
-        }
+        
     }
 
 
@@ -118,6 +69,7 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
     {
         if (!Full.ContainsKey(type))
         {
+            // Add activity
             Full.Add(type, point);
             Debug.Log($"Some need to be emptied");
         }
@@ -127,6 +79,7 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
     {
         if (!Need.ContainsKey(type))
         {
+            // Add activity
             Need.Add(type, point);
             Debug.Log($"Some need to some {type.ToString()}");
         }
@@ -145,7 +98,6 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
         {
             PeasanController worker = logic.peasanList.Last();
             DeliveryBoys.Add(item: worker);
-            worker.work = GameStructure.Work.Work;
             worker.state = State.Rest;
             logic.peasanList.Remove(item: worker);
             Debug.Log(message: "Boy getted");
@@ -165,7 +117,6 @@ public class Storage : MonoBehaviour, IHaveStorage, INeedWorker
         SceneLogic logic = GameObject.FindGameObjectWithTag("Buildings").GetComponent<SceneLogic>();
         PeasanController worker = DeliveryBoys.Last();
         DeliveryBoys.Remove(worker);
-        worker.work = GameStructure.Work.Rest;
         worker.state = State.Rest;
         worker.SetRest();
         logic.peasanList.Add(worker);

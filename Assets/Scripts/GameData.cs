@@ -29,13 +29,6 @@ namespace GameStructure
         Work3C
     }
 
-    public enum Work
-    {
-        Rest,
-        Work,
-
-    }
-
     [Serializable]
     public class GameData
     {
